@@ -16,6 +16,7 @@ If you would like to learn more about CRCs, the math behind them, and the protoc
 If you would like to use a generator polynomial for your own purposes and applications, don't just choose any. See here:
 
 (https://users.ece.cmu.edu/~koopman/crc/index.html) 
+
 (https://www.youtube.com/watch?v=4y_rowNNVUQ) Do not be fooled by the title, this is not a tutorial.
 
 An intro:
