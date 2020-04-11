@@ -1,12 +1,10 @@
 # Usage
 
-After installation is complete, you can use the library by compiling your program with the statically compiled library file. You must have the table file 
-generated during compilation in the same directory as your binary executable. Additionally, you may generate as many table files as you wish with the 
-gen_tables program. At the time of this writing, the size of the table file generated will always be 6912 bytes, or ~7 Kb.
+After installation is complete, you can use the library by compiling your program with the statically compiled library file. You must have the table file generated during compilation in the same directory as your binary executable. Additionally, you may generate as many table files as you wish with the gen_tables program. At the time of this writing, the size of the table file generated will always be 6912 bytes, or ~7 Kb.
 
-Assuming installation went through without errors, and the table file generated is in the same directory as the to-be-compiled binary, you can use the library 
-in the following ways:
+Assuming installation went through without errors, and the table file generated is in the same directory as the to-be-compiled binary, you can use the library in the following ways:
 
+```c
 #include <crcx.h>       //stdio.h and stdint.h included
 #include <string.h>
 
@@ -33,10 +31,11 @@ main(void)
     printf("    CRC: 0x%X\n", crc);
     return 0;
 }
+```
 
-If you would like to get all the CRCs of a message (though I don't know why you'd want to do that) and have patiance (or copy the array from here, in which case 
-you don't need any), you can do the following:
+If you would like to get all the CRCs of some data (though I don't know why you'd want to do that) and have patiance (or copy the array from here, in which case you don't need any), you can do the following:
 
+```c
 #include <crcx.h>       //stdio.h and stdint.h included
 #include <string.h>
 
@@ -65,10 +64,11 @@ main(void)
     
     return 0;
 }
+```
 
-The follwing example uses crcx_update() which is used on running checksums, or in this case running CRCs. Given a CRC and a character, it will calculate the next 
-CRC and such will be the current running CRC. This is usually used on arriving data.
+The follwing example uses crcx_update() which is used on running checksums, or in this case running CRCs. Given a CRC and a character, it will calculate the next CRC and such will be the current running CRC. This is usually used on arriving data.
 
+```c
 #include <crcx.h>       //stdio.h and stdint.h included
 #include <string.h>
 
@@ -95,3 +95,4 @@ main(void)
 
     return 0;
 }
+```
