@@ -15,6 +15,9 @@ RI : Reverse Input       II : Init XOR index     O  : Table offset
 #define     FIND    0x00000F0000UL
 #define     TOFF    0x000000FFFFUL
 
+/*
+    Macros used to extract CRC parameters.
+*/
 #define     get_bits(x)         ((x & BITS) >> 32)
 #define     reverse_input(x)    ((x & REVI) >> 28)
 #define     reverse_output(x)   ((x & REVO) >> 24)
@@ -22,6 +25,9 @@ RI : Reverse Input       II : Init XOR index     O  : Table offset
 #define     final_index(x)      ((x & FIND) >> 16)
 #define     table_offset(x)      (x & TOFF)
 
+/*
+    Bit reversal table. 
+*/
 static const uint8_t bit_reversal_table[256] = {
     #define R2(n)    n ,    n + 2*64 ,    n + 1*64 ,    n + 3*64
     #define R4(n) R2(n), R2(n + 2*16), R2(n + 1*16), R2(n + 3*16)
@@ -38,6 +44,11 @@ static const uint8_t bit_reversal_table[256] = {
                                 (bit_reversal_table[(x >> 16) & 0xFF] << 8) |\
                                 (bit_reversal_table[(x >> 24) & 0xFF]))
 
+/*
+    The init_index(x) and final_index(x) macros point to the value that is to be placed 
+    in the CRC register pre-calculation and the value the CRC will be XORed with
+    post-calculation, respectively.
+*/
 static uint8_t crc8_xor_table[]     = {0x00U, 0xFFU, 0xFDU, 0x55U};
 static uint16_t crc16_xor_table[]   = {0x0000U, 0xFFFFU, 0x0001U, 0x1D0FU, 0x800DU, 0xC6C6U, 0xB2AAU, 0x89ECU};
 static uint32_t crc32_xor_table[]   = {0x00000000U, 0xFFFFFFFFU, 0x52325032U};
@@ -47,6 +58,15 @@ static uint64_t crc_x;
 static uint8_t loaded;
 static uint8_t table[1024];
 
+/*
+    Parameterization is what makes each CRC unique; along with the generator polynomial
+    used to calculate it. Parameters include but are not limited to: initial CRC register 
+    value, value to XOR the CRC with post-calculation, whether input bytes are to be 
+    reversed, whether the final CRC is to be reversed pre-XOR.
+
+    iter is used to walk the polynomial table to be loaded using type-punning. This can 
+    be considered a quick-and-dirty approach but it's safe, fast, and it works well.
+*/
 static struct {
     union{
         uint8_t     _8;
@@ -65,6 +85,15 @@ static struct {
     uint8_t final_index;
 } CRCParams;
 
+/*
+    This function iterates over data and returns a CRC. Before calculating a CRC for a 
+    protocol you should read documentation to see if their CRC implementation differs
+    from the standard approach. There is no set algorithm to calculate CRCs, as once you
+    understand how they are calculated at the bit level you can easily implement a byte
+    level algorithm. Don't be surprised if your implementation looks similar to others.
+
+    See the README file for links to information on CRCs.
+*/
 int32_t
 crcx(const unsigned char * data, uint32_t data_length)
 {
@@ -108,6 +137,11 @@ crcx(const unsigned char * data, uint32_t data_length)
     }
 }
 
+/*
+    Same as crcx() with the exception that it operates on a single byte, and a CRC must be 
+    provided. This function is used to calculate running CRCs, and is usually applied to 
+    arriving data streams.
+*/
 int32_t
 crcx_update(int32_t crc, unsigned char data)
 {
@@ -161,6 +195,11 @@ load_table(const unsigned char * table_path)
     return 0;
 }
 
+/*
+    Setup function. Must be called before using crcx() or crcx_update() as it calls 
+    load_table(), which loads a pre-calculated table of polynomials from a file into
+    table[], and fills CRCParams.
+*/
 int
 crcx_use(uint64_t x, const unsigned char * table_path)
 {
