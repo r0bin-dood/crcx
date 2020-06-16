@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
-/* CRC-8 */
+/* 8-bit CRCs */
 #define     CRC8            0x0800000100UL
 #define     CRC8_DARC       0x0811000200UL
 #define     CRC8_DVB        0x0800000000UL
@@ -14,7 +14,7 @@
 #define     CRC8_ITU        0x0800030100UL
 #define     CRC8_ROHC       0x0811100100UL
 
-/* CRC-16 */
+/* 16-bit CRCs */
 #define     CRC16_A         0x1011500500UL
 #define     CRC16_ARC       0x1011000D00UL
 #define     CRC16_ACCITT    0x1000300500UL
@@ -36,7 +36,7 @@
 #define     CRC16_X25       0x1011110500UL
 #define     CRC16_XMODEM    0x1000000500UL
 
-/* CRC-32 */
+/* 32-bit CRCs */
 #define     CRC32           0x2011110F00UL
 #define     CRC32_BZIP2     0x2000110F00UL
 #define     CRC32_C         0x2011111300UL
@@ -51,6 +51,9 @@
 #define     CRC32_ZMODEM    0x2000000F00UL
 
 /* Functions */
+/*
+    ** Note: crcx_use() must be called at least once prior to calling the other functions.
+*/
 int        crcx_use    (uint64_t crc_x, const unsigned char * table_path);
 int32_t    crcx        (const unsigned char * data, uint32_t data_length);
 int32_t    crcx_update (int32_t crc, unsigned char data);

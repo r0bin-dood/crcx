@@ -3,9 +3,7 @@
 
 /*
 	You can find what generator polynomial a protocol or standard uses by
-	reading their specification/documentation. Additionally, plenty of
-	information is available out there. I would urge you to first read on
-	generator polynomials and the different forms they can take.
+	reading its documentation.
 */
 #define CRC8        0xD5U
 #define CRC8_CCITT  0x07U

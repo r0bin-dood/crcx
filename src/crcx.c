@@ -60,12 +60,14 @@ static uint8_t table[1024];
 
 /*
     Parameterization is what makes each CRC unique; along with the generator polynomial
-    used to calculate it. Parameters include but are not limited to: initial CRC register 
-    value, value to XOR the CRC with post-calculation, whether input bytes are to be 
-    reversed, whether the final CRC is to be reversed pre-XOR.
+    used to calculate it. Parameters include but are not limited to: 
+    - initial CRC register value (init_index)
+    - value to XOR the CRC with post-calculation (final_index)
+    - whether input bytes are to be reversed (rev_in)
+    - whether the final CRC is to be reversed pre-XOR (rev_out)
 
-    iter is used to walk the polynomial table to be loaded using type-punning. This can 
-    be considered a quick-and-dirty approach but it's safe, fast, and it works well.
+    iter is used to walk the polynomial table to be loaded. This quick-and-dirty approach 
+    is safe, fast, and works well.
 */
 static struct {
     union{
@@ -86,13 +88,10 @@ static struct {
 } CRCParams;
 
 /*
-    This function iterates over data and returns a CRC. Before calculating a CRC for a 
-    protocol you should read documentation to see if their CRC implementation differs
-    from the standard approach. There is no set algorithm to calculate CRCs, as once you
-    understand how they are calculated at the bit level you can easily implement a byte
-    level algorithm. Don't be surprised if your implementation looks similar to others.
-
-    See the README file for links to information on CRCs.
+    This function iterates over 'data' and returns a CRC. 
+    
+    ** Note: Before calculating a CRC for a protocol you should read documentation to see
+     if its CRC implementation differs from the standard approach.
 */
 int32_t
 crcx(const unsigned char * data, uint32_t data_length)
@@ -138,9 +137,9 @@ crcx(const unsigned char * data, uint32_t data_length)
 }
 
 /*
-    Same as crcx() with the exception that it operates on a single byte, and a CRC must be 
-    provided. This function is used to calculate running CRCs, and is usually applied to 
-    arriving data streams.
+    Same as crcx() with the exception that it operates on a single byte, and a previously
+     calculated CRC must be provided. This function is used to calculate running CRCs, 
+    and is usually applied to arriving data streams.
 */
 int32_t
 crcx_update(int32_t crc, unsigned char data)
@@ -179,6 +178,9 @@ crcx_update(int32_t crc, unsigned char data)
     }
 }
 
+/*
+    Loads a pre-calculated table of polynomials from a file into 'table[]'.
+*/
 static int
 load_table(const unsigned char * table_path)
 {
@@ -196,9 +198,7 @@ load_table(const unsigned char * table_path)
 }
 
 /*
-    Setup function. Must be called before using crcx() or crcx_update() as it calls 
-    load_table(), which loads a pre-calculated table of polynomials from a file into
-    table[], and fills CRCParams.
+    Setup function. Must be called before using crcx() or crcx_update().
 */
 int
 crcx_use(uint64_t x, const unsigned char * table_path)

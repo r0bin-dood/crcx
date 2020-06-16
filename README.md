@@ -11,13 +11,13 @@ CRCs in this library:
 - CRC-32:
     - BZIP2, C, EXT4, GZIP, JAMCRC, MPEG2, PNG, POSIX, SATA, SCTP, ZMODEM
 
-If you would like to learn more about CRCs, the math behind them, and the protocols and standards you can find them in, I would urge you to click on the links below. Prepare to read. 
+If you would like to learn more about CRCs, the math behind them, and the protocols and standards you can find them in, I would urge you to click on the links below.
 
 If you would like to use a generator polynomial for your own purposes and applications, don't just choose any. See here:
 
 (https://users.ece.cmu.edu/~koopman/crc/index.html) 
 
-(https://www.youtube.com/watch?v=4y_rowNNVUQ) Do not be fooled by the title, this is not a tutorial.
+(https://www.youtube.com/watch?v=4y_rowNNVUQ)
 
 An intro:
 

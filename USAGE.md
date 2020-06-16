@@ -33,7 +33,7 @@ main(void)
 }
 ```
 
-If you would like to get all the CRCs of some data (though I don't know why you'd want to do that) and have patiance (or copy the array from here, in which case you don't need any), you can do the following:
+If you would like to get all the CRCs of some data (though I don't know why you'd want to do that) and have patience (or copy the array from here, in which case you don't need any), you can do the following:
 
 ```c
 #include <crcx.h>       //stdio.h and stdint.h included
@@ -66,7 +66,7 @@ main(void)
 }
 ```
 
-The follwing example uses crcx_update() which is used on running checksums, or in this case running CRCs. Given a CRC and a character, it will calculate the next CRC and such will be the current running CRC. This is usually used on arriving data.
+The follwing example uses crcx_update() which is used on running checksums, or in this case running CRCs. Given a CRC and a character, it will calculate the next CRC and such will be the current running CRC.
 
 ```c
 #include <crcx.h>       //stdio.h and stdint.h included
