@@ -1,3 +1,6 @@
+[![LGTM
+C](https://img.shields.io/lgtm/grade/c/github/r0bin-dood/crcx)](https://lgtm.com/projects/g/r0bin-dood/crcx/context:cpp)
+https://img.shields.io/lgtm/grade/c/github/r0bin-dood/crcx
 # CRCx
 **Small CRC library in C**
 
